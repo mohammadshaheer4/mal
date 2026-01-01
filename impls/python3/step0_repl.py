@@ -1,29 +1,31 @@
-import mal_readline
+IS_RUNNING = True
 
 
-def read(source: str) -> str:
-    return source
+def READ(*, input: str) -> str:
+    return input
 
 
-def eval_(ast: str) -> str:
-    return ast
+def EVAL(*, input: str) -> str:
+    return input
 
 
-def print_(form: str) -> str:
-    return form
+def PRINT(*, input: str) -> str:
+    return input
 
 
-def rep(source: str) -> str:
-    return print_(eval_(read(source)))
+def rep(*, input: str) -> str:
+    read_output = READ(input=input)
+    eval_output = EVAL(input=read_output)
+    print_output = PRINT(input=eval_output)
+    return print_output
 
 
-def main() -> None:
-    while True:
-        try:
-            print(rep(mal_readline.input_('user> ')))
-        except EOFError:
-            break
-
-
-if __name__ == '__main__':
-    main()
+while IS_RUNNING:
+    try:
+        print('user> ')
+        line = str(input())
+        output = rep(input=line)
+        print(output)
+    except EOFError:
+        IS_RUNNING = False
+        print('Exitting...')
